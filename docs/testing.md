@@ -53,7 +53,7 @@ reproduces the firmware's side of the contract, and is released as
   disabled (`isOperating` true).
 - Print-start dialog data (unit evaluation of the patched getter
   with the same helpers proven live in the panel): catalogue slots
-  map to their enriched-table indices (QIDI PLA Basic → fila7,
+  map to their filament-table indices (QIDI PLA Basic → fila7,
   PETG Basic → fila39, Overture ABS → fila66), an out-of-catalogue
   slot keeps its legacy index as fallback, colors are the resolved
   hex values.

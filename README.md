@@ -202,9 +202,10 @@ This fix differs on points that were reproduced on the bench
   last mile (notably whether the firmware publishes an operation
   state for the panel lock — the lock engages when it is present
   and falls back to stock behaviour when it is not).
-- Vendor naming differs between the firmware database (« Bambu »)
-  and resolved identities (« Bambu Lab »); the patch canonicalizes
-  known aliases and writes the database form.
+- A resolved identity may carry the vendor form « Bambu Lab »
+  where the printer's database says « Bambu »; the patch
+  canonicalizes known aliases before comparing and writes the
+  database form.
 - A QIDI firmware update will replace Fluidd and the table; reapply
   the fix afterwards (the patcher will refuse a changed bundle
   rather than guess).

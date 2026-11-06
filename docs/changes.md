@@ -58,7 +58,7 @@ the stamp `window.__qidiQ2Fix="1.0.0"`.
 
 13. **Resolved-identity helpers injected** (`q2Info`, `q2Canon`,
     `q2FilaIndex` — the latter maps vendor + filament name to the
-    enriched table's fila number).
+    the table's fila number).
 14. **`isOkPrinter`**: the `e_endstop_state` / `b_endstop_state`
     reads fall back to `multi_color_controller.box`; no other
     change (stock semantics kept — no sensor substitution).

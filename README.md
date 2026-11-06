@@ -80,7 +80,7 @@ from stale numbers.
    stay disabled while a Box operation runs.
 6. **Print-start dialog reads the truth too.** The slot-mapping
    dialog's slots are built from the same resolved identities, with
-   indices into the enriched filament table below, instead of the
+   indices into the filament table below, instead of the
    legacy `save_variables` numbers. Its confirmation write is left
    exactly as stock (the effective print-start mapping remains
    driven by the firmware / QIDI Studio).
@@ -205,8 +205,6 @@ This fix differs on points that were reproduced on the bench
 - Vendor naming differs between the firmware database (« Bambu »)
   and resolved identities (« Bambu Lab »); the patch canonicalizes
   known aliases and writes the database form.
-- Five legacy entries of the stock table stay without a profile ID
-  (no catalogue match could be verified) instead of guessing one.
 - A QIDI firmware update will replace Fluidd and the table; reapply
   the fix afterwards (the patcher will refuse a changed bundle
   rather than guess).

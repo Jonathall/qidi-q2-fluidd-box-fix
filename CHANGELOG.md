@@ -19,10 +19,12 @@ Initial release for the QIDI Q2 on firmware 01.01.03.01+
   the panel operating lock is fed from the multi-color controller
   state; Unload enable logic reads the endstops where this
   firmware publishes them.
-- Print-start mapping dialog rebuilt on the resolved identities
-  with an enriched filament table (68 entries: the 50 stock entries
-  kept at their numbers, catalogue IDs/vendors added, missing
-  catalogue filaments appended as fila51–fila68).
+- Print-start mapping dialog rebuilt on the resolved identities,
+  with a filament table that mirrors the printer's own database:
+  the 56 database filaments with the printer's names and QF codes
+  (stock numbering preserved, the 18 the stock table lacks appended
+  as fila51–fila68; stock sections that are not in the printer's
+  database stay as unnamed placeholders).
 - `multi_color_controller` partial status deltas are merged in the
   store instead of replacing sub-objects.
 - Patcher verifies the stock bundle by SHA-256 and refuses any

@@ -158,7 +158,7 @@ original name, plus the `drop-in/` filament table.
 |---|---|
 | stock bundle | `178b2e076d3a75716819ee13f9ea1f0c92e536546c8b2adafde8632f6723710c` |
 | patched bundle | `f353ed201b84397dfa1eb19a1488e73b3efff5c1c2658e17bbb6877b72390821` |
-| filament table | `1b0331a6c0efb5749053d3afdc421bfafb954a45ae0530ff06abd22d09b19e5b` |
+| filament table | `8df162da18b247d2ddaceebd5a5f2fc8c6e019042a2170a072753b847c343a93` |
 
 (MD5 of the stock bundle, as shipped on the printer:
 `b9bc4faaf367d0603d92d7217476c57a` — note this is the same Fluidd

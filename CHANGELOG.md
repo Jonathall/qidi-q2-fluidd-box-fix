@@ -1,5 +1,19 @@
 # Changelog
 
+## V1.0.1 — 2026-11-10
+
+Filament table only; bundle unchanged. Five `[colordict]` entries
+copied verbatim from the stock table did not match the hex codes
+the printer firmware itself writes when a color is set on the
+printer screen (#4 `#5CF30F` → `#5CF30E`, #7 `#FE98FE` → `#FF98FE`,
+#13 `#CADE4B` → `#CADF4B`, #17 `#FE717A` → `#FF7174`,
+#20 `#898F9B` → `#898F8B`); the panel resolves a screen-set color
+by exact hex match against `[colordict]`, so those five colors
+never appeared in Fluidd. Same correction as the Plus 5 fix V9.3
+(contributed by mayrthom via a fork, entry #20 verified against a
+real printer). Filament table SHA-256:
+`8df162da18b247d2ddaceebd5a5f2fc8c6e019042a2170a072753b847c343a93`
+
 ## V1.0.0 — 2026-11-06 (bench-tested beta)
 
 Initial release for the QIDI Q2 on firmware 01.01.03.01+

@@ -110,8 +110,11 @@ You need to copy two files to the printer. Any SFTP client works
 
 1. Find the printer's IP address on its touchscreen (network /
    Wi-Fi settings).
-2. Connect with SFTP (port **22**): user **`mks`**, default
-   password **`makerbase`** (unless you changed it).
+2. Connect with SFTP (port **22**). Two default logins are known
+   to work on the Q2: user **`qidi`**, password **`qiditech`**
+   (the same login as the Plus 5), or user **`mks`**, password
+   **`makerbase`**. If one is refused, try the other (unless you
+   changed the password).
    The first connection shows a host-key prompt — accept it.
 3. Before replacing anything, rename the two original files on the
    printer to `index-DlFvHGAh.js.stock-backup` and
@@ -122,7 +125,10 @@ You need to copy two files to the printer. Any SFTP client works
    names (remove any ` (1)` the browser added).
 5. Optional but recommended, for the live filament database
    (over SSH):
-   `ln -s /home/qidi/QIDI_Client/resource/filament_config ~/printer_data/config/.qidi_filaments`
+   `ln -s /home/qidi/QIDI_Client/resource/filament_config /home/mks/printer_data/config/.qidi_filaments`
+   The path is absolute on purpose: on the Q2, `printer_data`
+   lives under `/home/mks`, so `~/printer_data` only points there
+   when you connected as `mks`.
    Without it, the patch uses its built-in fallback catalogue.
 6. Hard-refresh Fluidd (**Ctrl+F5**).
 

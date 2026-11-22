@@ -163,7 +163,7 @@ original name, plus the `drop-in/` filament table.
 | File | SHA-256 |
 |---|---|
 | stock bundle | `178b2e076d3a75716819ee13f9ea1f0c92e536546c8b2adafde8632f6723710c` |
-| patched bundle | `f353ed201b84397dfa1eb19a1488e73b3efff5c1c2658e17bbb6877b72390821` |
+| patched bundle | `ff47ec335c869cd35d2fffe1e3523d9fb2a276c73c89b2a0b1aca1efa19607b0` |
 | filament table | `8df162da18b247d2ddaceebd5a5f2fc8c6e019042a2170a072753b847c343a93` |
 
 (MD5 of the stock bundle, as shipped on the printer:

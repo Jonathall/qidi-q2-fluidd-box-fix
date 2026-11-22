@@ -8,7 +8,7 @@
 import hashlib, json, sys
 
 STOCK_SHA256 = "178b2e076d3a75716819ee13f9ea1f0c92e536546c8b2adafde8632f6723710c"
-STAMP = 'window.__qidiQ2Fix="1.0.0";'
+STAMP = 'function deepMerge(e,...n){let r=Object.assign({},e);for(let i of n)for(let t in i)t in r&&i[t]instanceof Object&&!Array.isArray(i[t])?r[t]=deepMerge(r[t],i[t]):r[t]=i[t];return r};window.__qidiQ2Fix="1.0.0";'
 DB_LINK = ".qidi_filaments"
 
 FALLBACK_DB = {"QIDI": ["PLA Basic", "PLA Matte Basic", "PLA Rapido", "PLA Rapido Matte", "PLA Rapido Metal", "PLA Silk", "WOOD Rapido", "PLA-CF", "ASA", "ASA-Aero", "ABS-GF", "ASA-CF20 Core", "ABS Odorless", "ABS Rapido", "ABS Rapido Metal", "PC/ABS-FR", "PETG Basic", "PETG Rapido", "PETG Tough", "PETG Translucent", "PETG-CF", "PETG-GF", "PAHT-CF", "PA6-CF", "PA12-CF", "PAHT-GF", "UltraPA", "UltraPA-CF25", "PPS-CF", "PPS-GF", "Support For PET/PA", "Support For PAHT", "PET-CF", "PET-GF", "TPU-Aero", "TPU 95A-HF", "TPU-GF", "PEBA 95A"], "Generic": ["ABS", "PC", "PETG", "PLA", "PLA Silk", "PLA+", "TPU 95A"], "Bambu": ["ABS", "PETG", "PLA"], "HATCHBOX": ["ABS", "PETG", "PLA"], "Overture": ["ABS", "PLA"], "Polymaker": ["ABS", "PLA", "PLA-HT"]}
@@ -59,7 +59,7 @@ EDITS = [
      "get isOperating(){const t=this.$store.state.printer.printer.box_extras,qm=(this.$store.state.printer.printer.multi_color_controller||{}).state;if(qm&&qm!==\"idle\")return!0;return!(!t||!t.box_button_state)", 1),
     # 12. Fusion des deltas partiels de multi_color_controller dans le store.
     ("t[s]!==e.payload[s]&&$.set(r.printer[e.key],s,e.payload[s])",
-     "t[s]!==e.payload[s]&&$.set(r.printer[e.key],s,e.key===\"multi_color_controller\"&&t[s]!==null&&e.payload[s]!==null&&typeof t[s]===\"object\"&&typeof e.payload[s]===\"object\"&&!Array.isArray(t[s])&&!Array.isArray(e.payload[s])?Object.assign({},t[s],e.payload[s]):e.payload[s])", 1),
+     "t[s]!==e.payload[s]&&$.set(r.printer[e.key],s,e.key===\"multi_color_controller\"&&t[s]!==null&&e.payload[s]!==null&&typeof t[s]===\"object\"&&typeof e.payload[s]===\"object\"&&!Array.isArray(t[s])&&!Array.isArray(e.payload[s])?deepMerge({},t[s],e.payload[s]):e.payload[s])", 1),
     # 13. Dialogue d'impression : helpers resolus avant isOkPrinter.
     ("get isOkPrinter(){", "__DIALOG_MEMBERS__get isOkPrinter(){", 1),
     # 14. Dialogue : endstops avec repli MCC.box (semantique stock conservee).

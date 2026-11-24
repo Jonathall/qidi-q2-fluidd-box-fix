@@ -1,5 +1,24 @@
 # Changelog
 
+## V1.0.2 — 2026-11-24
+
+- Security (issue #4): `q2Edit` interpolated the vendor and filament
+  names into the single-quoted parameters of
+  `UPDATE_FILAMENT_INFORMATION` verbatim. A name containing a quote,
+  a backslash or a line break — for example from a crafted filament
+  database — could break out of the quoted parameter and inject
+  additional gcode into the script sent to the printer. The names
+  are now stripped of those characters before interpolation
+  (`q2San`); no name in the printer's own database contains them.
+- The `multi_color_controller` merge is now a deep merge
+  (PR #5, contributed by RussianPenguin): a partial status delta
+  previously replaced the whole sub-object, dropping fields such
+  as `vendor_str` and leaving the panel state inconsistent with
+  the printer until a page reload.
+
+Patched bundle SHA-256:
+`9f1247107231b161a51df9ab3650181c5c6f3ee67ed841bfc9c74d048f9415ec`
+
 ## V1.0.1 — 2026-11-10
 
 Filament table only; bundle unchanged. Five `[colordict]` entries

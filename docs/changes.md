@@ -21,7 +21,9 @@ the stamp `window.__qidiQ2Fix="1.0.0"`.
    representable in the database), `q2Edit` (single
    `UPDATE_FILAMENT_INFORMATION` write; refuses protected slots;
    vendor switches remap the filament inside the same write; an
-   invalid color keeps the current one instead of inventing one).
+   invalid color keeps the current one instead of inventing one;
+   vendor/filament names are stripped of quotes, backslashes and
+   line breaks before interpolation into the command).
 3. **`vendorItems`**: database vendors; on a protected slot, only
    the slot's current vendor.
 4. **`filamentItems`**: the selected vendor's database list; on a

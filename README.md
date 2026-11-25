@@ -13,6 +13,33 @@ makes it work again, properly).
 > tests). **Not yet smoke-tested on a real Q2** — reports from owners
 > are welcome, good or bad. GPL-3.0.
 
+## Firmware compatibility
+
+| Printer firmware | Fix version | Files |
+|---|---|---|
+| 01.01.03.01 / 01.01.03.02 / 01.01.03.03 | **V1.0.2** | `drop-in/` + `patcher/qidi_q2_fluidd_fix.py` |
+| 01.01.03.04 | **V1.1.0** | `drop-in-01010304/` + `patcher/qidi_q2_fluidd_fix_01010304.py` |
+
+Firmware 01.01.03.04 (2026-11-23) ships a rebuilt Fluidd bundle
+(`index-nyEzQB9T.js`) in which the Box dashboard card and the
+print-time filament assignment dialog are no longer part of the UI
+(QIDI's changelog: "Hid the filament editing page in Fluidd").
+V1.0.2 cannot patch that bundle — its patcher refuses it by hash —
+and the firmware update replaces a patched panel with the new
+stock one. V1.1.0 is the port to the .04 bundle: the same fix,
+plus the removed card and dialog restored on top of the .04 code.
+Everything below describes the fix itself and applies to both
+builds; where a file name or folder differs on .04, it is called
+out.
+
+> **V1.1.0 status: pre-release.** The .04 port is statically
+> validated — syntax check, an inverse test that undoes every edit
+> and reproduces the stock .04 bundle byte for byte, regeneration
+> from clean stock byte for byte, and marker parity with the
+> V1.0.2 patched bundle — but it has **not yet been tested on a
+> real Q2**. The V1.0.2 build for 01.01.03.01–.03 is unchanged.
+> Reports from .04 owners are welcome.
+
 > ---
 > ## ⚠️ READ FIRST — Where the files go
 >
@@ -37,6 +64,15 @@ makes it work again, properly).
 > Two files, two exact locations, exact names. If a step below seems
 > to say otherwise, this box wins.
 > ---
+
+On firmware **01.01.03.04** the bundle file is named
+`index-nyEzQB9T.js` instead of `index-DlFvHGAh.js` — same folder
+(`/home/qidi/fluidd/assets/`), same rule: exact name, no subfolder,
+and the files come from `drop-in-01010304/`. Note also that the .04
+update itself replaces `officiall_filas_list.cfg` with the stock
+table (the file is not in the update's keep list): if you update
+the firmware with the fix installed, re-copy the filament table
+from the drop-in folder after the update.
 
 ## What is broken on the stock firmware
 
@@ -119,10 +155,12 @@ You need to copy two files to the printer. Any SFTP client works
 3. Before replacing anything, rename the two original files on the
    printer to `index-DlFvHGAh.js.stock-backup` and
    `officiall_filas_list.cfg.stock-backup`. That backup is your
-   rollback.
-4. Upload the two files from this repo's `drop-in/` folder to the
-   exact locations in the READ FIRST box above, keeping the exact
-   names (remove any ` (1)` the browser added).
+   rollback. (On 01.01.03.04 the bundle is `index-nyEzQB9T.js`;
+   its backup name is `index-nyEzQB9T.js.stock-backup`.)
+4. Upload the two files from this repo's `drop-in/` folder (on
+   01.01.03.04: `drop-in-01010304/`) to the exact locations in the
+   READ FIRST box above, keeping the exact names (remove any
+   ` (1)` the browser added).
 5. Optional but recommended, for the live filament database
    (over SSH):
    `ln -s /home/qidi/QIDI_Client/resource/filament_config /home/mks/printer_data/config/.qidi_filaments`
@@ -148,6 +186,16 @@ The patcher checks the SHA-256 first and stops without writing if
 the file is not the exact stock bundle. Upload the result under the
 original name, plus the `drop-in/` filament table.
 
+On firmware 01.01.03.04, patch the .04 stock bundle instead:
+
+```
+python3 patcher/qidi_q2_fluidd_fix_01010304.py index-nyEzQB9T.js index-nyEzQB9T.patched.js
+```
+
+and upload the result under the name `index-nyEzQB9T.js`, plus the
+filament table from `drop-in-01010304/`. Each patcher accepts only
+its own stock bundle and refuses the other one.
+
 ## Verify the install
 
 - **Hash the file you actually installed:** download
@@ -171,6 +219,20 @@ original name, plus the `drop-in/` filament table.
 build QIDI ships on the Plus 5; the patches are **not**
 interchangeable, each model has its own firmware data contract and
 its own filament table numbering.)
+
+On firmware 01.01.03.04, verify against these hashes instead (and
+`window.__qidiQ2Fix` must answer `"1.1.0"`):
+
+| File | SHA-256 |
+|---|---|
+| stock bundle .04 | `dfd8fe36257c8d2ef76b95943cf338672c6ddebda6e3f79ade3ccfd194b3e7d6` |
+| patched bundle .04 (V1.1.0) | `03307e39ddb5edb789eda3ba12de8167eef0e9a79e3d0f6f250d789c9aa09184` |
+| filament table | `8df162da18b247d2ddaceebd5a5f2fc8c6e019042a2170a072753b847c343a93` (same file as V1.0.2) |
+
+(MD5 of the patched .04 bundle: `53eaaa3c10dd78d8495a90e216fd219d`.
+The .04 stock bundle is byte-identical to the bundle QIDI ships on
+the Plus 5 firmware 01.01.02.02; the patches remain model-specific
+and are **not** interchangeable.)
 
 ## Uninstall / rollback
 
@@ -203,6 +265,20 @@ This fix differs on points that were reproduced on the bench
 
 ## Known limitations
 
+- **V1.1.0 (firmware 01.01.03.04) is pre-release.** It is
+  statically validated only (syntax, inverse test, regeneration,
+  marker parity — see above) and has not yet run on a real Q2.
+- **Firmware .04 renamed six filaments in the printer's own
+  catalogue**: ABS-GF → ABS-GF25, ABS Rapido Metal → ABS Metal
+  Rapido, ABS Odorless → Odorless ABS, PLA Rapido Matte → PLA
+  Matte Rapido, PLA Rapido Metal → PLA Metal Rapido, WOOD Rapido
+  → PLA Wood Rapido. The panel reads the printer's live filament
+  database, so the new names appear and edit normally there. Only
+  the print dialog's built-in fallback name map still carries the
+  pre-.04 names: for a renamed filament, the dialog falls back to
+  the firmware's own slot index instead of the mapped table entry
+  — no wrong assignment, just a less precise label — until the
+  map is refreshed from a real .04 machine.
 - **Beta until a real Q2 smoke test.** The bench reproduces the
   firmware's published contract; only a physical printer proves the
   last mile (notably whether the firmware publishes an operation

@@ -103,3 +103,75 @@ sections carrying only their stock temperatures and type, so
 legacy numeric references cannot point at a missing entry. They
 claim no name, no vendor and no QF code: Fluidd does not invent
 filaments the printer does not have.
+
+## Firmware 01.01.03.04 — V1.1.0
+
+Target: stock `index-nyEzQB9T.js` (Fluidd v1.30.5 as shipped on
+firmware 01.01.03.04 — byte-identical to the bundle QIDI ships on
+the Plus 5 firmware 01.01.02.02), SHA-256
+`dfd8fe36257c8d2ef76b95943cf338672c6ddebda6e3f79ade3ccfd194b3e7d6`.
+Patcher: `patcher/qidi_q2_fluidd_fix_01010304.py`. Every edit is
+anchor-verified with an expected occurrence count, as above.
+Output carries the stamp `window.__qidiQ2Fix="1.1.0"`. The
+filament table is the same file as V1.0.2 (the stock .04 table is
+unchanged from .03).
+
+Steps 1–15 are the V1.0.2 steps above, ported to the new build.
+13 anchors match verbatim; two are pure renames, re-anchored:
+
+- Step 8: the socket alias is `R.` instead of `I.` throughout the
+  new bundle (`printerGcodeScript` exists only with the `R.`
+  prefix in .04); the injected `q2Edit` member is re-aliased the
+  same way.
+- Step 15: local renames in the dialog's `items` getter — array
+  t→e, value s→t, index n→s, label a→i, temp i→n, dict o→a,
+  color l→o, fila c→l. Anchor and replacement rewritten with the
+  new names, semantics unchanged.
+
+`q2San` (step 2's sanitizer, V1.0.2) and the `deepMerge` store
+helper (step 12, V1.0.2) are carried over unchanged.
+
+Steps 16–25 restore what firmware .04 removed from the UI. In the
+stock .04 bundle the Box card and the FileSystemSelectLineDialog
+are never rendered or registered, and the four call sites that
+opened the dialog print directly instead. Each restoration is
+applied on top of the .04 code — where .04 has a behaviour of its
+own (direct print with no Box), it is kept as the fallback branch:
+
+16. **Box card render function** re-created after the card
+    component definition (the stock bundle has the component but
+    no render function bound to it).
+17. **Box card registration**: `BoxCard` re-added to the
+    dashboard's component registry.
+18. **Dialog render function** re-created after the dialog
+    component definition, with its original `data-v-` scope id.
+19–21. **Dialog registration**: `FileSystemSelectLineDialog`
+    re-registered in the three components that embed it (the
+    history/files component, the files component, and the
+    upload-and-print button component).
+22. **`handlePrint` (files component)**: the branch that opens
+    the assignment dialog is restored ahead of the direct
+    `printerPrintStart` — guarded by `box_count` and the stock
+    `files/getCanPrint` metadata check; without a Box, the .04
+    direct print runs unchanged.
+23. **`handlePrint` (second component)**: the same restoration,
+    with the post-print router behaviour of the original kept.
+24. **`handleUpload`**: with a Box present and print-after-upload
+    requested, the file is uploaded without starting the print,
+    then the dialog opens when `getCanPrint` passes; otherwise
+    the stock .04 upload flow runs unchanged.
+25. **`handleUploadAndPrint`**: with a Box present, upload
+    without printing and open the dialog when `getCanPrint`
+    passes; without a Box, the stock .04 direct upload-and-print
+    runs unchanged.
+
+Validation: `node --check` passes; the 25 steps undone in
+reverse order plus the stamp reproduce the stock .04 bundle byte
+for byte (no collateral edits, no .04 code reverted);
+regeneration from clean stock is byte-identical; the patcher
+refuses the .01–.03 bundle and an already-patched bundle; marker
+parity with the V1.0.2 patched bundle is exact (q2Info 10,
+q2Edit 4, q2San 3, q2Canon 7, q2LoadDb 2, q2Protected 4,
+q2FilaIndex 2, deepMerge 3; restoration markers: BoxCard
+registration 1, dialog registrations 3, `getCanPrint` 5 — the
+stock .04 bundle has 1).

@@ -1,5 +1,65 @@
 # Changelog
 
+## V1.1.0 — 2026-11-24
+
+Port to firmware **01.01.03.04** (released 2026-11-23). That
+firmware ships a rebuilt Fluidd bundle (`index-nyEzQB9T.js`,
+byte-identical to the bundle on the Plus 5 firmware 01.01.02.02)
+in which the Box dashboard card and the print-time filament
+assignment dialog are no longer part of the UI (QIDI's changelog:
+"Hid the filament editing page in Fluidd"). V1.0.2's patcher
+refuses the new bundle by hash, and the firmware update replaces
+a patched panel with the new stock one.
+
+- New patcher `patcher/qidi_q2_fluidd_fix_01010304.py` and new
+  drop-in folder `drop-in-01010304/` (patched bundle + the same
+  filament table as V1.0.2). For firmware 01.01.03.01–.03 nothing
+  changes — use V1.0.2 as before (the .03 bundle is
+  byte-identical to the V1.0.2 reference bundle).
+- All 15 fix steps ported. Two anchors needed re-anchoring on the
+  new build, both pure renames: step 8 (the socket alias changed
+  from `I.` to `R.` throughout the bundle; the injected `q2Edit`
+  member is re-aliased the same way) and step 15 (local variable
+  renames in the dialog's `items` getter). `q2San` and the deep
+  merge from V1.0.2 are carried over unchanged.
+- 10 additional restoration steps: the Box card's render function
+  and dashboard registration are restored, the
+  FileSystemSelectLineDialog's render function and its three
+  component registrations are restored, and the dialog's four
+  call branches in the file-system handlers are restored — all on
+  top of the .04 code, so the .04 behaviour without a Box (direct
+  print) is preserved as the fallback branch.
+- Validation: `node --check` passes; undoing all 25 steps
+  reproduces the stock .04 bundle byte for byte; regeneration
+  from clean stock is byte-identical; the patcher refuses the
+  .01–.03 bundle and an already-patched bundle; marker counts
+  match the V1.0.2 patched bundle exactly (BoxCard registration
+  1, dialog registrations 3, `getCanPrint` 5).
+- Note for upgraders: the .04 update replaces
+  `officiall_filas_list.cfg` with the stock table (the file is
+  not in the update's keep list) — re-copy the filament table
+  from `drop-in-01010304/` after updating.
+- Known limitation: firmware .04 renamed six filaments in the
+  printer's catalogue (ABS-GF → ABS-GF25, ABS Rapido Metal → ABS
+  Metal Rapido, ABS Odorless → Odorless ABS, PLA Rapido Matte →
+  PLA Matte Rapido, PLA Rapido Metal → PLA Metal Rapido, WOOD
+  Rapido → PLA Wood Rapido). The panel reads the printer's live
+  filament database and is unaffected; the dialog's fallback name
+  map still carries the pre-.04 names, so a renamed filament
+  falls back to the firmware's slot index in the dialog until
+  the map is refreshed from a real .04 machine.
+- **Not yet tested on a real Q2 — pre-release.** Still open on a
+  physical printer: Box card and slot tiles, edit ↔ screen sync
+  (including a renamed filament), load/unload under the
+  recompiled Box modules and the new BOX485 / BUFFER firmwares,
+  the assignment dialog from its three entry points, the .04
+  nozzle validation, and a full print with a filament change.
+
+Patched bundle SHA-256:
+`03307e39ddb5edb789eda3ba12de8167eef0e9a79e3d0f6f250d789c9aa09184`
+Stock .04 bundle SHA-256:
+`dfd8fe36257c8d2ef76b95943cf338672c6ddebda6e3f79ade3ccfd194b3e7d6`
+
 ## V1.0.2 — 2026-11-24
 
 - Security (issue #4): `q2Edit` interpolated the vendor and filament

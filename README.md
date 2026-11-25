@@ -212,7 +212,7 @@ its own stock bundle and refuses the other one.
 |---|---|
 | stock bundle | `178b2e076d3a75716819ee13f9ea1f0c92e536546c8b2adafde8632f6723710c` |
 | patched bundle | `9f1247107231b161a51df9ab3650181c5c6f3ee67ed841bfc9c74d048f9415ec` |
-| filament table | `8df162da18b247d2ddaceebd5a5f2fc8c6e019042a2170a072753b847c343a93` |
+| filament table | `1b0331a6c0efb5749053d3afdc421bfafb954a45ae0530ff06abd22d09b19e5b` |
 
 (MD5 of the stock bundle, as shipped on the printer:
 `b9bc4faaf367d0603d92d7217476c57a` — note this is the same Fluidd
@@ -227,7 +227,7 @@ On firmware 01.01.03.04, verify against these hashes instead (and
 |---|---|
 | stock bundle .04 | `dfd8fe36257c8d2ef76b95943cf338672c6ddebda6e3f79ade3ccfd194b3e7d6` |
 | patched bundle .04 (V1.1.0) | `03307e39ddb5edb789eda3ba12de8167eef0e9a79e3d0f6f250d789c9aa09184` |
-| filament table | `8df162da18b247d2ddaceebd5a5f2fc8c6e019042a2170a072753b847c343a93` (same file as V1.0.2) |
+| filament table | `1b0331a6c0efb5749053d3afdc421bfafb954a45ae0530ff06abd22d09b19e5b` (same file as V1.0.2) |
 
 (MD5 of the patched .04 bundle: `53eaaa3c10dd78d8495a90e216fd219d`.
 The .04 stock bundle is byte-identical to the bundle QIDI ships on

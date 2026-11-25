@@ -1,5 +1,22 @@
 # Changelog
 
+## V1.1.1 — 2026-11-25
+
+Filament table only; bundles unchanged. The five `[colordict]`
+entries changed in V1.0.1 (#4, #7, #13, #17, #20) came from the
+Plus 5 fix's correction, verified against a Plus 5 printer. On
+the Q2, the printer's own stock table — the firmware
+01.01.03.03/.04 table and a real Q2's table agree byte for byte
+on `[colordict]` — carries the original values, so the table
+now follows the Q2 stock palette again (#4 `#5CF30E` →
+`#5CF30F`, #7 `#FF98FE` → `#FE98FE`, #13 `#CADF4B` → `#CADE4B`,
+#17 `#FF7174` → `#FE717A`, #20 `#898F8B` → `#898F9B`).
+`[colordict]` only feeds the colour picker's swatches; filament
+identities, temperatures and assignments are unchanged. Both
+drop-in folders ship the same corrected table. Filament table
+SHA-256:
+`1b0331a6c0efb5749053d3afdc421bfafb954a45ae0530ff06abd22d09b19e5b`
+
 ## V1.1.0 — 2026-11-24
 
 Port to firmware **01.01.03.04** (released 2026-11-23). That
